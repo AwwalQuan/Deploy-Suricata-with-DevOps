@@ -37,7 +37,7 @@ Run `sudo terraform apply` to deploy the instance.
 
 Check the IP address of the newly created instance by running `terraform refresh`
 
-> There is an error `Could not open '/var/lib/libvirt/images/<FILE_NAME>': Permission denied` that is thrown when we try to apply the configuration. This is a bug I know exists in Ubuntu 20.04 and to fix this, we disable security driver in the configuration file `/etc/libvirt/qemu.conf` with the string `security_driver = "none"` and restart the the service `sudo systemctl restart libvirtd.service`. Then run un `sudo terraform apply` again.
+> There is an error `Could not open '/var/lib/libvirt/images/<FILE_NAME>': Permission denied` that is thrown when we try to apply the configuration. This is a bug I know exists in Ubuntu 20.04 and to fix this, we disable security driver in the configuration file `/etc/libvirt/qemu.conf` with the string `security_driver = "none"` and restart the service `sudo systemctl restart libvirtd.service`. Then run un `sudo terraform apply` again.
 
 ## Running Ansible Playbook
 
@@ -53,4 +53,4 @@ Run the Ansible playbook to deploy the tools on the new instance. Replace <insta
 ansible-playbook -u ubuntu -i <instance_ip_address>, playbook.yml --extra-vars "ansible_sudo_pass=chme"
 ```
 
-After successful deployment, Suricata should be up and running. Proceed to to additional configuration which might include setting the network interface the IDS should listen on etc.
+After successful deployment, Suricata should be up and running. Proceed to do additional configuration which might include setting the network interface the IDS should listen on etc.
