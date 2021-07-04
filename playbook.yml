@@ -1,0 +1,55 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+
+#Install Suricata
+    - name: Enable Suricata repository
+      apt_repository:
+        repo: ppa:oisf/suricata-stable
+
+    - name: Install Suricata
+      apt:
+        name: suricata
+
+    - name: Install Python3-pip
+      apt:
+        name: python3-pip
+
+    - name: Install pyyaml from pip
+      pip:
+        name: pyyaml
+        executable: pip3
+
+    - name: Install Suricata Update from github using pip
+      command: pip3 install https://github.com/OISF/suricata-update/archive/master.zip
+
+    - name: Upgrade Suricata
+      command: pip3 install --pre --upgrade suricata-update
+
+    - name: Update Suricata rules and add free available rule sources
+      command: suricata-update update-sources
+      command: suricata-update enable-source oisf/trafficid
+      command: suricata-update enable-source etnetera/aggressive
+      command: suricata-update enable-source sslbl/ssl-fp-blacklist
+      command: suricata-update enable-source et/open
+      command: suricata-update enable-source tgreen/hunting
+      command: suricata-update enable-source sslbl/ja3-fingerprints
+      command: suricata-update enable-source ptresearch/attackdetection
+      command: suricata-update
+
+    #You can copy your already prepared Suricata configuration file to the instance if you have one. Uncomment the next four lines to do this.
+    #- name: Copy Suricata configuration file
+    #  copy: 
+    #    src: ./suricata.yaml
+    #    dest: /etc/suricata/suricata.yaml
+
+    - name: Enable Suricata service
+      service:
+        name: suricata
+        enabled: yes
+
+    - name: Start Suricata service
+      service:
+        name: suricata
+        state: started
