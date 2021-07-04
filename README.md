@@ -3,6 +3,8 @@ This repository demonstrates deploying Suricata IDS with DevOps techniques by ut
 
 The setup guide here was fully tested on Ubuntu 20.04.
 
+The Terraform deployment script is sensor.tf, additional configuration for Terraform deployment is cloud_init.cfg, and the Ansible playbook is playbook.yml
+
 ## Running Terraform Script
 
 Install Terraform on Administrator system. Your laptop...
